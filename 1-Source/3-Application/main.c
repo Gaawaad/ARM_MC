@@ -1,15 +1,12 @@
-#include "intCtr.h"
-int main(void){
-	  intCtr_init();
-	while(1){
-		IntEnable(_INT0);
-  	IntEnable(_INT8);
-		IntEnable(_INT33);
-		IntEnable(_INT68);
-		IntEnable(_INT97);
-		IntEnable(_INT134);
-		IntDisable(_INT97);
-	}
+#include "SysCtr.h"
+#include "GPIO_Cfg.h"
+#include "Dio.h"
+int main(void)
+{
+	SysCtr_Init();
+	GPIO_Unlock();
+	GPIO_Digital_Enable();
+	u8 read = 0;
+	Dio_WritePort(Dio_PORTA, 0x12);
 	return 0;
 }
- 

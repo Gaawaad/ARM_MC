@@ -15,11 +15,26 @@
  * INCLUDES
  *********************************************************************************************************************/
 #include "Std_types.h"
-
+#include "SysCtr_Cfg.h"
+#include "GPIO_Cfg.h"
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
 #define _CORTEXM4_PIRF_BASE_ADD             (0xE000E000)
+#define _SYSTEM_CTR_BASE_ADD                (0x400FE000)
+#define _APB_GPIO_A_BASE_ADD                (0x40004000)
+#define _AHB_GPIO_A_BASE_ADD                (0x40058000)
+#define _APB_GPIO_B_BASE_ADD                (0x40005000)
+#define _AHB_GPIO_B_BASE_ADD                (0x40059000)
+#define _APB_GPIO_C_BASE_ADD                (0x40006000)
+#define _AHB_GPIO_C_BASE_ADD                (0x4005A000)
+#define _APB_GPIO_D_BASE_ADD                (0x40007000)
+#define _AHB_GPIO_D_BASE_ADD                (0x4005B000)
+#define _APB_GPIO_E_BASE_ADD                (0x40024000)
+#define _AHB_GPIO_E_BASE_ADD                (0x4005C000)
+#define _APB_GPIO_F_BASE_ADD                (0x40025000)
+#define _AHB_GPIO_F_BASE_ADD                (0x4005D000)
+#define _GPIO_DATA_MASK                     (0x3FC)    //use all bits
 #define APINT_Reg                           *((volatile u32*)(_CORTEXM4_PIRF_BASE_ADD + 0xD0C))
 #define CONTROL_Reg                         *((volatile u32*)(_CORTEXM4_PIRF_BASE_ADD + 0xD04))
 #define PRI0_Reg                            *((volatile u32*)(_CORTEXM4_PIRF_BASE_ADD + 0x400))
@@ -51,6 +66,100 @@
 #define DIS2_Reg                            *((volatile u32*)(_CORTEXM4_PIRF_BASE_ADD + 0x188))
 #define DIS3_Reg                            *((volatile u32*)(_CORTEXM4_PIRF_BASE_ADD + 0x18C))
 #define DIS4_Reg                            *((volatile u32*)(_CORTEXM4_PIRF_BASE_ADD + 0x190))
+#define RCC_Reg                             *((volatile u32*)(_SYSTEM_CTR_BASE_ADD + 0x060))
+
+
+
+#define RCGCGPIO_Reg                        *((volatile u32*)(_SYSTEM_CTR_BASE_ADD + 0x608))
+
+#if(_GPIO_PORT_A_BUS == 1)
+#define GPIODEN_A_Reg                       *((volatile u32*)(_AHB_GPIO_A_BASE_ADD + 0x51C))
+#define GPIODIR_A_Reg                       *((volatile u32*)(_AHB_GPIO_A_BASE_ADD + 0x400))
+#define GPIODATA_A_Reg                      *((volatile u32*)(_AHB_GPIO_A_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_A_Reg                      *((volatile u32*)(_AHB_GPIO_A_BASE_ADD + 0x520))
+#define GPIOCR_A_Reg                        *((volatile u32*)(_AHB_GPIO_A_BASE_ADD + 0x524))
+#else
+#define GPIODEN_A_Reg                       *((volatile u32*)(_APB_GPIO_A_BASE_ADD + 0x51C))
+#define GPIODIR_A_Reg                       *((volatile u32*)(_APB_GPIO_A_BASE_ADD + 0x400))
+#define GPIODATA_A_Reg                      *((volatile u32*)(_APB_GPIO_A_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_A_Reg                      *((volatile u32*)(_APB_GPIO_A_BASE_ADD + 0x520))
+#define GPIOCR_A_Reg                        *((volatile u32*)(_APB_GPIO_A_BASE_ADD + 0x524))
+#endif
+
+
+#if(_GPIO_PORT_B_BUS == 1)
+#define GPIODEN_B_Reg                       *((volatile u32*)(_AHB_GPIO_B_BASE_ADD + 0x51C))
+#define GPIODIR_B_Reg                       *((volatile u32*)(_AHB_GPIO_B_BASE_ADD + 0x400))
+#define GPIODATA_B_Reg                      *((volatile u32*)(_AHB_GPIO_B_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_B_Reg                      *((volatile u32*)(_AHB_GPIO_B_BASE_ADD + 0x520))
+#define GPIOCR_B_Reg                        *((volatile u32*)(_AHB_GPIO_B_BASE_ADD + 0x524))
+#else
+#define GPIODEN_B_Reg                       *((volatile u32*)(_APB_GPIO_B_BASE_ADD + 0x51C))
+#define GPIODIR_B_Reg                       *((volatile u32*)(_APB_GPIO_B_BASE_ADD + 0x400))
+#define GPIODATA_B_Reg                      *((volatile u32*)(_APB_GPIO_B_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_B_Reg                      *((volatile u32*)(_APB_GPIO_B_BASE_ADD + 0x520))
+#define GPIOCR_B_Reg                        *((volatile u32*)(_APB_GPIO_B_BASE_ADD + 0x524))
+#endif
+
+
+#if(_GPIO_PORT_C_BUS == 1)
+#define GPIODEN_C_Reg                       *((volatile u32*)(_AHB_GPIO_C_BASE_ADD + 0x51C))
+#define GPIODIR_C_Reg                       *((volatile u32*)(_AHB_GPIO_C_BASE_ADD + 0x400))
+#define GPIODATA_C_Reg                      *((volatile u32*)(_AHB_GPIO_C_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_C_Reg                      *((volatile u32*)(_AHB_GPIO_C_BASE_ADD + 0x520))
+#define GPIOCR_C_Reg                        *((volatile u32*)(_AHB_GPIO_C_BASE_ADD + 0x524))
+#else
+#define GPIODEN_C_Reg                       *((volatile u32*)(_APB_GPIO_C_BASE_ADD + 0x51C))
+#define GPIODIR_C_Reg                       *((volatile u32*)(_APB_GPIO_C_BASE_ADD + 0x400))
+#define GPIODATA_C_Reg                      *((volatile u32*)(_APB_GPIO_C_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_C_Reg                      *((volatile u32*)(_APB_GPIO_C_BASE_ADD + 0x520))
+#define GPIOCR_C_Reg                        *((volatile u32*)(_APB_GPIO_C_BASE_ADD + 0x524))
+#endif
+
+
+#if(_GPIO_PORT_D_BUS == 1)
+#define GPIODEN_D_Reg                       *((volatile u32*)(_AHB_GPIO_D_BASE_ADD + 0x51C))
+#define GPIODIR_D_Reg                       *((volatile u32*)(_AHB_GPIO_D_BASE_ADD + 0x400))
+#define GPIODATA_D_Reg                      *((volatile u32*)(_AHB_GPIO_D_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_D_Reg                      *((volatile u32*)(_AHB_GPIO_D_BASE_ADD + 0x520))
+#define GPIOCR_D_Reg                        *((volatile u32*)(_AHB_GPIO_D_BASE_ADD + 0x524))
+#else
+#define GPIODEN_D_Reg                       *((volatile u32*)(_APB_GPIO_D_BASE_ADD + 0x51C))
+#define GPIODIR_D_Reg                       *((volatile u32*)(_APB_GPIO_D_BASE_ADD + 0x400))
+#define GPIODATA_D_Reg                      *((volatile u32*)(_APB_GPIO_D_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_D_Reg                      *((volatile u32*)(_APB_GPIO_D_BASE_ADD + 0x520))
+#define GPIOCR_D_Reg                        *((volatile u32*)(_APB_GPIO_D_BASE_ADD + 0x524))
+#endif
+
+
+#if(_GPIO_PORT_E_BUS == 1)
+#define GPIODEN_E_Reg                       *((volatile u32*)(_AHB_GPIO_E_BASE_ADD + 0x51C))
+#define GPIODIR_E_Reg                       *((volatile u32*)(_AHB_GPIO_E_BASE_ADD + 0x400))
+#define GPIODATA_E_Reg                      *((volatile u32*)(_AHB_GPIO_E_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_E_Reg                      *((volatile u32*)(_AHB_GPIO_E_BASE_ADD + 0x520))
+#define GPIOCR_E_Reg                        *((volatile u32*)(_AHB_GPIO_E_BASE_ADD + 0x524))
+#else
+#define GPIODEN_E_Reg                       *((volatile u32*)(_APB_GPIO_E_BASE_ADD + 0x51C))
+#define GPIODIR_E_Reg                       *((volatile u32*)(_APB_GPIO_E_BASE_ADD + 0x400))
+#define GPIODATA_E_Reg                      *((volatile u32*)(_APB_GPIO_E_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_E_Reg                      *((volatile u32*)(_APB_GPIO_E_BASE_ADD + 0x520))
+#define GPIOCR_E_Reg                        *((volatile u32*)(_APB_GPIO_E_BASE_ADD + 0x524))
+#endif
+
+
+#if(_GPIO_PORT_F_BUS == 1)
+#define GPIODEN_F_Reg                       *((volatile u32*)(_AHB_GPIO_F_BASE_ADD + 0x51C))
+#define GPIODIR_F_Reg                       *((volatile u32*)(_AHB_GPIO_F_BASE_ADD + 0x400))
+#define GPIODATA_F_Reg                      *((volatile u32*)(_AHB_GPIO_F_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_F_Reg                      *((volatile u32*)(_AHB_GPIO_F_BASE_ADD + 0x520))
+#define GPIOCR_F_Reg                        *((volatile u32*)(_AHB_GPIO_F_BASE_ADD + 0x524))
+#else
+#define GPIODEN_F_Reg                       *((volatile u32*)(_APB_GPIO_F_BASE_ADD + 0x51C))
+#define GPIODIR_F_Reg                       *((volatile u32*)(_APB_GPIO_F_BASE_ADD + 0x400))
+#define GPIODATA_F_Reg                      *((volatile u32*)(_APB_GPIO_F_BASE_ADD + 0x000 + _GPIO_DATA_MASK))
+#define GPIOLOCK_F_Reg                      *((volatile u32*)(_APB_GPIO_F_BASE_ADD + 0x520))
+#define GPIOCR_F_Reg                        *((volatile u32*)(_APB_GPIO_F_BASE_ADD + 0x524))
+#endif
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
